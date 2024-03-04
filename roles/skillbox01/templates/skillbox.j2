@@ -1,0 +1,14 @@
+[Unit]
+Description=Skillbox Service
+After=network.target
+After=launch-server.service
+
+[Service]
+Type=simple
+User=root
+ExecStartPre=docker rm -f {{ skillbox_container_name }}
+ExecStart=docker run -d --restart always -p {{ host_port}}:{{ skillbox_container_port }} --name {{ skillbox_container_name }} -v /etc/nginx/sites-enabled:/etc/nginx/conf.d:ro {{ skillbox_container_image }}:{{ skillbox_container_tag}}
+
+[Install]
+WantedBy=multi-user.target
+

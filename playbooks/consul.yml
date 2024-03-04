@@ -1,0 +1,7 @@
+---
+- hosts:
+  - consul
+
+  roles:
+    - consul
+    - consul_service_registry                   

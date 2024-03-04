@@ -1,0 +1,14 @@
+---
+# tasks file for prometheus
+- name: install
+  apt:
+    name: prometheus
+    update_cache: yes
+
+
+- name: copy config
+  template:
+    src: prometheus.yml.j2
+    dest: /etc/prometheus/prometheus.yml
+  notify:
+    - Restart Prometheus

@@ -1,0 +1,36 @@
+---
+- name: copy config
+  template:
+    src:  grafana.ini.j2
+    dest: /opt/grafana.ini
+  tags:
+    - grafana
+
+- name: docker run
+  docker_container:
+    image: grafana/grafana-enterprise
+    name: grafana
+    published_ports:
+      - 8000:3000
+    recreate: true
+    restart_policy: always
+    volumes:
+      - /opt/grafana.ini:/etc/grafana/grafana.ini
+      - /opt/grafana_data:/var/lib/grafana
+    user: root:root
+  tags:
+    - grafana
+
+
+
+
+
+
+
+
+
+
+
+
+
+

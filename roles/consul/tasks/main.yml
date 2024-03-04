@@ -1,0 +1,28 @@
+---
+# tasks file for consul
+
+- name: create dir
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0777
+  loop:
+    - /opt/consul
+    - /opt/consul/config
+
+
+- name: Install
+  docker_container: 
+    name: consul 
+    image: hashicorp/consul:{{ consul_version }}
+    recreate: true
+    user: root
+    ports: 
+      - 8500:8500
+      - 8300-8400:8300-8400
+    command: consul agent -server -ui -node={{ inventory_hostname }} -bootstrap-expect=1 -client=0.0.0.0 -data-dir=/consul -advertise={{ ansible_host }} -retry-join=# указать IP -retry-join=# указать IP -retry-join=# указать IP
+    volumes: 
+      - /opt/consul:/consul
+    network_mode: host
+    restart_policy: always    
+

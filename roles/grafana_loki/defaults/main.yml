@@ -1,0 +1,4 @@
+---
+# defaults file for loki
+grafana_loki_user_id: 10001
+grafana_loki_log_dir: /opt/loki

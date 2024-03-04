@@ -1,0 +1,9 @@
+---
+# defaults file for skillbox01
+skillbox_message: "world"
+skillbox_service_name: "my-eee"
+host_port: 80
+skillbox_container_port: 80
+skillbox_container_name: nginx
+skillbox_container_image: nginx
+skillbox_container_tag: 1.24.0-alpine

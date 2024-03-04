@@ -1,0 +1,13 @@
+---
+- name: install
+  apt:
+    name: prometheus-node-exporter
+    update_cache: yes
+
+- name: Run service
+  systemd:
+    state: started
+    daemon_reload: true
+    enabled: true
+    name: prometheus-node-exporter
+

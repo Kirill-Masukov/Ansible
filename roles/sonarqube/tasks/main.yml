@@ -1,0 +1,25 @@
+---
+- name: docker run
+  docker_container:
+    image: sonarqube
+    name: sonarqube
+    published_ports:
+      - 9000:9000
+    recreate: true
+    restart_policy: always
+  tags:
+    - sonarqube
+
+
+
+
+
+
+
+
+
+
+
+
+
+

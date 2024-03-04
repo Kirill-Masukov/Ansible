@@ -1,0 +1,10 @@
+ansible_user:       root
+ansible_connection: ssh
+
+grafana_loki_host: IP host_1 #указать IP hosta
+grafana_loki_port: 3100
+consul_host: IP host_2 #указать IP hosta
+
+victoriametrics_vm_service: IP host_1 #указать IP hosta
+victoriametrics_vm_prod:    IP host_2 #указать IP hosta
+

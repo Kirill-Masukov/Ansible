@@ -1,0 +1,56 @@
+---
+- name: copy config
+  template:
+    src:  victoriametrics.yml.j2
+    dest: /opt/victoriametrics.yml
+  tags:
+    - victoriametrics
+
+- name: docker run
+  docker_container:
+    image: victoriametrics/vmagent:v1.96.0
+    name: victoriametrics
+    published_ports:
+      - 8429:8429
+    recreate: true
+    restart_policy: always
+    volumes:
+      - /opt/victoriametrics:/vmagentdata
+      - /opt/victoriametrics.yml:/etc/victoriametrics.yml
+    user: root:root
+    command: 
+      - "--promscrape.config=/etc/victoriametrics.yml"
+      - "--remoteWrite.url=http://monitoring.kirill-mas.ru:8428/api/v1/write"
+      - "--promscrape.config.strictParse=false"  
+  tags:
+    - victoriametrics
+  
+
+- name: docker run victoriametrics
+  docker_container:
+    image: victoriametrics/victoria-metrics:v1.96.0
+    name: victoriametrics-server
+    published_ports:
+      - 8428:8428
+      - 8089:8089
+      - 8089:8089/udp
+      - 2003:2003
+      - 2003:2003/udp
+      - 4242:4242
+      - 8480:8480
+      - 8481:8481
+      - 8482:8482  
+    recreate: true
+    restart_policy: always
+    volumes:
+      - /opt/victoriametrics-server:/storage
+    user: root:root
+    command:
+      - "--storageDataPath=/storage"
+      - "--graphiteListenAddr=:2003"
+      - "--opentsdbListenAddr=:4242"
+      - "--httpListenAddr=:8428"
+      - "--influxListenAddr=:8089"
+  tags:
+    - victoriametrics
+      

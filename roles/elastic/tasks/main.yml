@@ -1,0 +1,28 @@
+---
+- name: copy pkg
+  copy:
+    src:  elasticsearch_7.10.2_amd64.deb
+    dest: /opt/elasticsearch_7.10.2_amd64.deb
+  tags:
+    - elk_copy
+
+- name: install pkg
+  apt:
+    deb: /opt/elasticsearch_7.10.2_amd64.deb
+  tags:
+    - elk_install
+  
+- name: start elasticsearch
+  systemd:
+    daemon_reload: true
+    enabled: true
+    state: started    
+    name: elasticsearch.service 
+
+- name: copy config
+  template:
+    src:  elasticsearch.yml.j2
+    dest: /etc/elasticsearch/elasticsearch.yml
+  tags:
+    - elk_copy_config
+

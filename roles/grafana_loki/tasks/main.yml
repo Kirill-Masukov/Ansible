@@ -1,0 +1,29 @@
+---
+# tasks file for loki
+- name: create dir
+  file:
+    path: "{{ item }}"
+    owner: "{{ grafana_loki_user_id }}"
+    group: "{{ grafana_loki_user_id }}"
+    state: directory
+  loop:
+    - "/etc/loki"
+    - "{{ grafana_loki_log_dir }}"
+
+- name: copy config
+  template:
+    src:  "local-config.yaml.j2"
+    dest: "/etc/loki/local-config.yaml"
+    owner: "{{ grafana_loki_user_id }}"
+    group: "{{ grafana_loki_user_id }}"
+
+- name: docker run
+  docker_container:
+    image:    "grafana/loki:2.9.0"
+    name:     "loki"
+    recreate: true
+    ports:
+      - "{{ grafana_loki_port }}:3100"
+    volumes:
+      - "/etc/loki/local-config.yaml:/etc/loki/local-config.yaml"
+      - "{{ grafana_loki_log_dir }}:{{ grafana_loki_log_dir }}"

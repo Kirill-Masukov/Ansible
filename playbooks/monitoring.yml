@@ -1,0 +1,9 @@
+---
+- hosts:
+  - monitoring
+
+  roles:
+    - prometheus
+    - grafana
+    - victoriametrics
+  

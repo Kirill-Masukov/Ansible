@@ -1,0 +1,13 @@
+[Unit]
+Description=Consul registry node exporter
+After=network.target
+After=launch-server.service
+
+[Service]
+Type=simple
+User=root
+ExecStart=curl -X PUT --data '{ "Name" : "{{ inventory_hostname }}", "Port" : 9100, "Address" : "{{ ansible_host }}", "Tags" : ["tags1", "tags2"] }'  http://{{ consul_host }}:8500/v1/agent/service/register
+
+[Install]
+WantedBy=multi-user.target
+

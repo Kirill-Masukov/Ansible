@@ -1,0 +1,12 @@
+---
+- hosts:
+  - prod
+
+  roles:
+    - sonarqube
+    - curator      
+    - fluent-bit
+    - kibana
+    - elastic  
+    - skillbox01
+    - node_exporter

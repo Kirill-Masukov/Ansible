@@ -1,0 +1,46 @@
+---
+- name: mkdir 
+  file:
+    path: /opt/curator
+    state: directory
+
+- name: copy config
+  template:
+    src:  curator.yml.j2
+    dest: /opt/curator/config.yml
+  tags:
+    - curator config
+
+- name: copy actionfile
+  template:
+    src:  actionfile.yml.j2
+    dest: /opt/curator/actionfile.yml
+  tags:
+    - curator actionfile
+
+- name: docker run
+  docker_container:
+    image: untergeek/curator:7.0.1
+    name: curator
+    network_mode: host
+    recreate: true
+    restart_policy: always
+    volumes:
+      - /opt/curator:/.curator
+    command: "--config /.curator/config.yml /.curator/actionfile.yml"     
+  tags:
+    - curator
+
+
+
+
+
+
+
+
+
+
+
+
+
+

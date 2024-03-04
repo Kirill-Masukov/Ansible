@@ -1,0 +1,34 @@
+---
+# tasks file for skillbox01
+- name: debug
+  file:
+    path:  "{{ item }}"
+    state: directory
+  loop:
+    - /etc/nginx
+    - /etc/nginx/conf.d
+    - /etc/nginx/sites-enabled
+
+
+- name: copy config
+  copy:
+    src:  "{{ item.src }}"
+    dest: "{{ item.dest }}/{{ item.src }}"
+  loop:
+    - src: default.conf
+      dest: /etc/nginx/sites-enabled
+    - src: nginx.conf
+      dest: /etc/nginx/
+
+
+- name: copy systemd unit
+  template:
+    src: skillbox.j2
+    dest: /etc/systemd/system/{{ skillbox_service_name }}.service
+
+- name: Start Skillbox
+  systemd:
+    name: "{{ skillbox_service_name }}"
+    daemon_reload: true
+    state: started
+

@@ -1,0 +1,33 @@
+---
+- name: copy config
+  template:
+    src:  kibana.yml.j2
+    dest: /opt/kibana.yml
+  tags:
+    - kibana
+
+- name: docker run
+  docker_container:
+    image: kibana:7.10.1
+    name: kibana
+    network_mode: host
+    recreate: true
+    restart_policy: always
+    volumes:
+      - /opt/kibana.yml:/usr/share/kibana/config/kibana.yml
+  tags:
+    - kibana
+
+
+
+
+
+
+
+
+
+
+
+
+
+

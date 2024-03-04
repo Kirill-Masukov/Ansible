@@ -1,0 +1,5 @@
+---
+# defaults file for prometheus
+prometheus_job_node_name: "node_exporter"
+prometheus_node_exporter_vm_service: # IP
+prometheus_node_exporter_vm_prod: # IP
